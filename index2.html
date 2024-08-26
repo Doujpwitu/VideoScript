@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video with Sliding Highlight Script</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        #video {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        #script {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+        #script span {
+            padding: 0 5px;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+        #script span .highlight {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background-color: yellow;
+            z-index: -1;
+            transition: width 0.5s linear; /* Default transition */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Video with Sliding Highlight Script</h1>
+    
+    <video id="video" controls>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="script">
+        <span data-start="0.5" data-end="2"><span class="highlight"></span>こんにちは</span>
+        <span data-start="2" data-end="4"><span class="highlight"></span>世界</span>
+        <!-- Add more words/phrases with corresponding start and end times -->
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const scriptSpans = document.querySelectorAll('#script span');
+
+        video.addEventListener('timeupdate', () => {
+            const currentTime = video.currentTime;
+
+            scriptSpans.forEach(span => {
+                const start = parseFloat(span.getAttribute('data-start'));
+                const end = parseFloat(span.getAttribute('data-end'));
+                const duration = (end - start) * 1000; // Duration in milliseconds
+
+                if (currentTime >= start && currentTime <= end) {
+                    const highlight = span.querySelector('.highlight');
+                    highlight.style.transitionDuration = `${duration}ms`;
+                    highlight.style.width = '100%';
+                } else {
+                    const highlight = span.querySelector('.highlight');
+                    highlight.style.width = '0';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

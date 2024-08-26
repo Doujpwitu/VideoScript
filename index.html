@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video with Synchronized Script</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        #video {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        #script {
+            font-size: 1.5em;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 600px;
+        }
+        #script span {
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Video with Synchronized Script</h1>
+    
+    <video id="video" controls>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="script">
+        <span data-start="0.2" data-end="1">で、指は？</span>
+        <span data-start="3" data-end="6">ちゃんと上に提出しましたよ</span>
+        <span data-start="6" data-end="10">あなたに渡すと板取君に食べさせるでしょう</span>
+        <span data-start="10" data-end="11">ちぇ</span>
+        <!-- Add more words/phrases with corresponding start and end times -->
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const scriptSpans = document.querySelectorAll('#script span');
+
+        video.addEventListener('timeupdate', () => {
+            const currentTime = video.currentTime;
+
+            scriptSpans.forEach(span => {
+                const start = parseFloat(span.getAttribute('data-start'));
+                const end = parseFloat(span.getAttribute('data-end'));
+
+                if (currentTime >= start && currentTime <= end) {
+                    span.classList.add('highlight');
+                } else {
+                    span.classList.remove('highlight');
+                }
+            });
+        });
+
+        // Optional: Make script clickable to jump to specific time in the video
+        scriptSpans.forEach(span => {
+            span.addEventListener('click', () => {
+                const start = parseFloat(span.getAttribute('data-start'));
+                video.currentTime = start;
+                video.play();
+            });
+        });
+    </script>
+
+</body>
+</html>
