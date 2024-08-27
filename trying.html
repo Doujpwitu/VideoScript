@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video with Synchronized Script</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        #script {
+            font-size: 1.5em;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 600px;
+        }
+        #script span {
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+    <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
+    <link
+    href="https://unpkg.com/@videojs/themes@1/dist/city/index.css"
+    rel="stylesheet"
+  />
+</head>
+<body>
+
+    <h1>Video with video.js</h1>
+    
+    <video 
+    id="video" 
+    class="video-js vjs-theme-city"
+    width="640"
+    height="264" 
+    controls 
+    src="video.mp4"
+    data-setup="{}"
+    >
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="script">
+        <span data-start="0.2" data-end="1">で、<ruby>指<rt>ゆび</rt></ruby>は？</span>
+        <span data-start="3" data-end="6">ちゃんと上に提出しましたよ</span>
+        <span data-start="6" data-end="10">あなたに渡すと板取君に食べさせるでしょう</span>
+        <span data-start="10" data-end="11">ちぇ</span>
+        <!-- Add more words/phrases with corresponding start and end times -->
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const scriptSpans = document.querySelectorAll('#script span');
+
+        videojs('video', {
+        playsinline: true
+        });
+        video.addEventListener('timeupdate', () => {
+            const currentTime = video.currentTime;
+
+            scriptSpans.forEach(span => {
+                const start = parseFloat(span.getAttribute('data-start'));
+                const end = parseFloat(span.getAttribute('data-end'));
+
+                if (currentTime >= start && currentTime <= end) {
+                    span.classList.add('highlight');
+                } else {
+                    span.classList.remove('highlight');
+                }
+            });
+        });
+
+        // Optional: Make script clickable to jump to specific time in the video
+        scriptSpans.forEach(span => {
+            span.addEventListener('click', () => {
+                const start = parseFloat(span.getAttribute('data-start'));
+                video.currentTime = start;
+                video.play();
+            });
+        });
+    </script>
+    <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
+
+
+</body>
+</html>
