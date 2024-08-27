@@ -60,9 +60,7 @@
         const video = document.getElementById('video');
         const scriptSpans = document.querySelectorAll('#script span');
 
-        videojs('video', {
-        playsinline: true
-        });
+    
         video.addEventListener('timeupdate', () => {
             const currentTime = video.currentTime;
 
