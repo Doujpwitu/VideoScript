@@ -34,19 +34,6 @@
 <body>
 
     <h1>Video with video.js</h1>
-    
-    <video 
-    id="video" 
-    class="video-js vjs-theme-city"
-    width="640"
-    height="264" 
-    controls 
-    src="video.mp4"
-    data-setup="{}"
-    >
-        <source src="video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
 
     <video-js id="vid1" >
         <source src="video.mp4" type="video/mp4">
@@ -60,35 +47,7 @@
         <!-- Add more words/phrases with corresponding start and end times -->
     </div>
 
-    <script>
-        const video = document.getElementById('video');
-        const scriptSpans = document.querySelectorAll('#script span');
-
     
-        video.addEventListener('timeupdate', () => {
-            const currentTime = video.currentTime;
-
-            scriptSpans.forEach(span => {
-                const start = parseFloat(span.getAttribute('data-start'));
-                const end = parseFloat(span.getAttribute('data-end'));
-
-                if (currentTime >= start && currentTime <= end) {
-                    span.classList.add('highlight');
-                } else {
-                    span.classList.remove('highlight');
-                }
-            });
-        });
-
-        // Optional: Make script clickable to jump to specific time in the video
-        scriptSpans.forEach(span => {
-            span.addEventListener('click', () => {
-                const start = parseFloat(span.getAttribute('data-start'));
-                video.currentTime = start;
-                video.play();
-            });
-        });
-    </script>
     <script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
     <script src="script.js"></script>
 
